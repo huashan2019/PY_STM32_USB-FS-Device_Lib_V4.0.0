@@ -47,13 +47,26 @@
 
 #define CUSTOMHID_SIZ_DEVICE_DESC               18
 #define CUSTOMHID_SIZ_CONFIG_DESC               41
-#define CUSTOMHID_SIZ_REPORT_DESC               163
+#define CUSTOMHID_SIZ_REPORT_DESC               33//163
 #define CUSTOMHID_SIZ_STRING_LANGID             4
 #define CUSTOMHID_SIZ_STRING_VENDOR             38
 #define CUSTOMHID_SIZ_STRING_PRODUCT            32
 #define CUSTOMHID_SIZ_STRING_SERIAL             26
 
 #define STANDARD_ENDPOINT_DESC_SIZE             0x09
+
+
+#define CUSTOM_HID_EPIN_ADDR 0x81U
+#define CUSTOM_HID_EPIN_SIZE 0x40U//0x02U /* 64字节 */
+/*这个是USB的中断接收函数，根据USB设备的ID来接收字节，库生成的时候只能接收2个字节的，
+当我们改成0x40，就能接收64个字节，USB HID一包只能64个字节*/
+#define CUSTOM_HID_EPOUT_ADDR 0x01U
+#define CUSTOM_HID_EPOUT_SIZE 0x40U//0x02U /* 64字节 */
+#define USB_CUSTOM_HID_CONFIG_DESC_SIZ 41U
+#define USB_CUSTOM_HID_DESC_SIZ 9U
+#ifndef CUSTOM_HID_HS_BINTERVAL
+#define CUSTOM_HID_HS_BINTERVAL 0x01U//0x05U //1ms轮询
+#endif /* CUSTOM_HID_HS_BINTERVAL */
 
 /* Exported functions ------------------------------------------------------- */
 extern const uint8_t CustomHID_DeviceDescriptor[CUSTOMHID_SIZ_DEVICE_DESC];

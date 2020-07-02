@@ -1,0 +1,566 @@
+L 1 "..\..\..\Libraries\STM32F10x_StdPeriph_Driver\src\stm32f10x_exti.c"
+N/**
+N  ******************************************************************************
+N  * @file    stm32f10x_exti.c
+N  * @author  MCD Application Team
+N  * @version V3.6.1
+N  * @date    05-March-2012
+N  * @brief   This file provides all the EXTI firmware functions.
+N  ******************************************************************************
+N  * @attention
+N  *
+N  * <h2><center>&copy; COPYRIGHT 2012 STMicroelectronics</center></h2>
+N  *
+N  * Licensed under MCD-ST Liberty SW License Agreement V2, (the "License");
+N  * You may not use this file except in compliance with the License.
+N  * You may obtain a copy of the License at:
+N  *
+N  *        http://www.st.com/software_license_agreement_liberty_v2
+N  *
+N  * Unless required by applicable law or agreed to in writing, software 
+N  * distributed under the License is distributed on an "AS IS" BASIS, 
+N  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+N  * See the License for the specific language governing permissions and
+N  * limitations under the License.
+N  *
+N  ******************************************************************************
+N  */
+N
+N/* Includes ------------------------------------------------------------------*/
+N#include "stm32f10x_exti.h"
+L 1 "..\..\..\Libraries\STM32F10x_StdPeriph_Driver\inc\stm32f10x_exti.h" 1
+N/**
+N  ******************************************************************************
+N  * @file    stm32f10x_exti.h
+N  * @author  MCD Application Team
+N  * @version V3.6.1
+N  * @date    05-March-2012
+N  * @brief   This file contains all the functions prototypes for the EXTI firmware
+N  *          library.
+N  ******************************************************************************
+N  * @attention
+N  *
+N  * <h2><center>&copy; COPYRIGHT 2012 STMicroelectronics</center></h2>
+N  *
+N  * Licensed under MCD-ST Liberty SW License Agreement V2, (the "License");
+N  * You may not use this file except in compliance with the License.
+N  * You may obtain a copy of the License at:
+N  *
+N  *        http://www.st.com/software_license_agreement_liberty_v2
+N  *
+N  * Unless required by applicable law or agreed to in writing, software 
+N  * distributed under the License is distributed on an "AS IS" BASIS, 
+N  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+N  * See the License for the specific language governing permissions and
+N  * limitations under the License.
+N  *
+N  ******************************************************************************
+N  */
+N
+N/* Define to prevent recursive inclusion -------------------------------------*/
+N#ifndef __STM32F10x_EXTI_H
+N#define __STM32F10x_EXTI_H
+N
+N#ifdef __cplusplus
+S extern "C" {
+N#endif
+N
+N/* Includes ------------------------------------------------------------------*/
+N#include "stm32f10x.h"
+L 1 "..\..\..\Libraries\CMSIS\Device\ST\STM32F10x\Include\stm32f10x.h" 1
+N/**
+N  ******************************************************************************
+N  * @file    stm32f10x.h
+N  * @author  MCD Application Team
+N  * @version V3.6.1
+N  * @date    09-March-2012
+N  * @brief   CMSIS Cortex-M3 Device Peripheral Access Layer Header File. 
+N  *          This file contains all the peripheral register's definitions, bits 
+N  *          definitions and memory mapping for STM32F10x Connectivity line, 
+N  *          High density, High density value line, Medium density, 
+N  *          Medium density Value line, Low density, Low density Value line 
+N  *          and XL-density devices.
+N  *
+N  *          The file is the unique include file that the application programmer
+N  *          is using in the C source code, usually in main.c. This file contains:
+N  *           - Configuration section that allows to select:
+N  *              - The device used in the target application
+N  *              - To use or not the peripheral’s drivers in application code(i.e. 
+N  *                code will be based on direct access to peripheral’s registers 
+N  *                rather than drivers API), this option is controlled by 
+N  *                "#define USE_STDPERIPH_DRIVER"
+N  *              - To change few application-specific parameters such as the HSE 
+N  *                crystal frequency
+N  *           - Data structures and the address mapping for all peripherals
+N  *           - Peripheral's registers declarations and bits definition
+N  *           - Macros to access peripheral’s registers hardware
+N  *
+N  ******************************************************************************
+N  * @attention
+N  *
+N  * <h2><center>&copy; COPYRIGHT 2012 STMicroelectronics</center></h2>
+N  *
+N  * Licensed under MCD-ST Liberty SW License Agreement V2, (the "License");
+N  * You may not use this file except in compliance with the License.
+N  * You may obtain a copy of the License at:
+N  *
+N  *        http://www.st.com/software_license_agreement_liberty_v2
+N  *
+N  * Unless required by applicable law or agreed to in writing, software 
+N  * distributed under the License is distributed on an "AS IS" BASIS, 
+N  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+N  * See the License for the specific language governing permissions and
+N  * limitations under the License.
+N  *
+N  ******************************************************************************
+N  */
+N
+N/** @addtogroup CMSIS
+N  * @{
+N  */
+N
+N/** @addtogroup stm32f10x
+N  * @{
+N  */
+N    
+N#ifndef __STM32F10x_H
+N#define __STM32F10x_H
+N
+N#ifdef __cplusplus
+S extern "C" {
+N#endif /* __cplusplus */
+N  
+N/** @addtogroup Library_configuration_section
+N  * @{
+N  */
+N  
+N/* Uncomment the line below according to the target STM32 device used in your
+N   application 
+N  */
+N
+N#if !defined (STM32F10X_LD) && !defined (STM32F10X_LD_VL) && !defined (STM32F10X_MD) && !defined (STM32F10X_MD_VL) && !defined (STM32F10X_HD) && !defined (STM32F10X_HD_VL) && !defined (STM32F10X_XL) && !defined (STM32F10X_CL) 
+X#if !0L && !0L && !1L && !0L && !0L && !0L && !0L && !0L 
+S  /* #define STM32F10X_LD */     /*!< STM32F10X_LD: STM32 Low density devices */
+S  /* #define STM32F10X_LD_VL */  /*!< STM32F10X_LD_VL: STM32 Low density Value Line devices */  
+S  /* #define STM32F10X_MD */     /*!< STM32F10X_MD: STM32 Medium density devices */
+S  /* #define STM32F10X_MD_VL */  /*!< STM32F10X_MD_VL: STM32 Medium density Value Line devices */  
+S  /* #define STM32F10X_HD */     /*!< STM32F10X_HD: STM32 High density devices */
+S  /* #define STM32F10X_HD_VL */  /*!< STM32F10X_HD_VL: STM32 High density value line devices */  
+S  /* #define STM32F10X_XL */     /*!< STM32F10X_XL: STM32 XL-density devices */
+S  /* #define STM32F10X_CL */     /*!< STM32F10X_CL: STM32 Connectivity line devices */
+N#endif
+N/*  Tip: To avoid modifying this file each time you need to switch between these
+N        devices, you can define the device in your toolchain compiler preprocessor.
+N
+N - Low-density devices are STM32F101xx, STM32F102xx and STM32F103xx microcontrollers
+N   where the Flash memory density ranges between 16 and 32 Kbytes.
+N - Low-density value line devices are STM32F100xx microcontrollers where the Flash
+N   memory density ranges between 16 and 32 Kbytes.
+N - Medium-density devices are STM32F101xx, STM32F102xx and STM32F103xx microcontrollers
+N   where the Flash memory density ranges between 64 and 128 Kbytes.
+N - Medium-density value line devices are STM32F100xx microcontrollers where the 
+N   Flash memory density ranges between 64 and 128 Kbytes.   
+N - High-density devices are STM32F101xx and STM32F103xx microcontrollers where
+N   the Flash memory density ranges between 256 and 512 Kbytes.
+N - High-density value line devices are STM32F100xx microcontrollers where the 
+N   Flash memory density ranges between 256 and 512 Kbytes.   
+N - XL-density devices are STM32F101xx and STM32F103xx microcontrollers where
+N   the Flash memory density ranges between 512 and 1024 Kbytes.
+N - Connectivity line devices are STM32F105xx and STM32F107xx microcontrollers.
+N  */
+N
+N#if !defined (STM32F10X_LD) && !defined (STM32F10X_LD_VL) && !defined (STM32F10X_MD) && !defined (STM32F10X_MD_VL) && !defined (STM32F10X_HD) && !defined (STM32F10X_HD_VL) && !defined (STM32F10X_XL) && !defined (STM32F10X_CL)
+X#if !0L && !0L && !1L && !0L && !0L && !0L && !0L && !0L
+S #error "Please select first the target STM32F10x device used in your application (in stm32f10x.h file)"
+N#endif
+N
+N#if !defined  (USE_STDPERIPH_DRIVER)
+X#if !1L
+S/**
+S * @brief Comment the line below if you will not use the peripherals drivers.
+S   In this case, these drivers will not be included and the application code will 
+S   be based on direct access to peripherals registers 
+S   */
+S  /*#define USE_STDPERIPH_DRIVER*/
+N#endif /* USE_STDPERIPH_DRIVER */
+N
+N/**
+N * @brief In the following line adjust the value of External High Speed oscillator (HSE)
+N   used in your application 
+N   
+N   Tip: To avoid modifying this file each time you need to use different HSE, you
+N        can define the HSE value in your toolchain compiler preprocessor.
+N  */           
+N#if !defined  HSE_VALUE
+X#if !0L
+N #ifdef STM32F10X_CL   
+S  #define HSE_VALUE    ((uint32_t)25000000) /*!< Value of the External oscillator in Hz */
+N #else 
+N  #define HSE_VALUE    ((uint32_t)8000000) /*!< Value of the External oscillator in Hz */
+N #endif /* STM32F10X_CL */
+N#endif /* HSE_VALUE */
+N
+N/**
+N * @brief In the following line adjust the External High Speed oscillator (HSE) Startup 
+N   Timeout value 
+N   */
+N#if !defined  (HSE_STARTUP_TIMEOUT) 
+X#if !0L 
+N  #define HSE_STARTUP_TIMEOUT    ((uint16_t)0x0500)   /*!< Time out for HSE start up */
+N#endif /* HSE_STARTUP_TIMEOUT */
+N
+N#if !defined  (HSI_VALUE)   
+X#if !0L   
+N  #define HSI_VALUE    ((uint32_t)8000000) /*!< Value of the Internal oscillator in Hz*/
+N#endif /* HSI_VALUE */
+N
+N/**
+N * @brief STM32F10x Standard Peripheral Library version number
+N   */
+N#define __STM32F10X_STDPERIPH_VERSION_MAIN   (0x03) /*!< [31:24] main version */
+N#define __STM32F10X_STDPERIPH_VERSION_SUB1   (0x06) /*!< [23:16] sub1 version */
+N#define __STM32F10X_STDPERIPH_VERSION_SUB2   (0x01) /*!< [15:8]  sub2 version */
+N#define __STM32F10X_STDPERIPH_VERSION_RC     (0x00) /*!< [7:0]  release candidate */
+N#define __STM32F10X_STDPERIPH_VERSION        ((__STM32F10X_STDPERIPH_VERSION_MAIN << 24)\
+N                                             |(__STM32F10X_STDPERIPH_VERSION_SUB1 << 16)\
+N                                             |(__STM32F10X_STDPERIPH_VERSION_SUB2 << 8)\
+N                                             |(__STM32F10X_STDPERIPH_VERSION_RC))
+X#define __STM32F10X_STDPERIPH_VERSION        ((__STM32F10X_STDPERIPH_VERSION_MAIN << 24)                                             |(__STM32F10X_STDPERIPH_VERSION_SUB1 << 16)                                             |(__STM32F10X_STDPERIPH_VERSION_SUB2 << 8)                                             |(__STM32F10X_STDPERIPH_VERSION_RC))
+N
+N/**
+N  * @}
+N  */
+N
+N/** @addtogroup Configuration_section_for_CMSIS
+N  * @{
+N  */
+N
+N/**
+N * @brief Configuration of the Cortex-M3 Processor and Core Peripherals 
+N */
+N#ifdef STM32F10X_XL
+S #define __MPU_PRESENT             1      /*!< STM32 XL-density devices provide an MPU      */
+N#else
+N #define __MPU_PRESENT             0      /*!< Other STM32 devices does not provide an MPU  */
+N#endif /* STM32F10X_XL */
+N#define __CM3_REV                 0x0200  /*!< Core Revision r2p0                           */
+N#define __NVIC_PRIO_BITS          4       /*!< STM32 uses 4 Bits for the Priority Levels    */
+N#define __Vendor_SysTickConfig    0       /*!< Set to 1 if different SysTick Config is used */
+N
+N/**
+N * @brief STM32F10x Interrupt Number Definition, according to the selected device 
+N *        in @ref Library_configuration_section 
+N */
+Ntypedef enum IRQn
+N{
+N/******  Cortex-M3 Processor Exceptions Numbers ***************************************************/
+N  NonMaskableInt_IRQn         = -14,    /*!< 2 Non Maskable Interrupt                             */
+N  MemoryManagement_IRQn       = -12,    /*!< 4 Cortex-M3 Memory Management Interrupt              */
+N  BusFault_IRQn               = -11,    /*!< 5 Cortex-M3 Bus Fault Interrupt                      */
+N  UsageFault_IRQn             = -10,    /*!< 6 Cortex-M3 Usage Fault Interrupt                    */
+N  SVCall_IRQn                 = -5,     /*!< 11 Cortex-M3 SV Call Interrupt                       */
+N  DebugMonitor_IRQn           = -4,     /*!< 12 Cortex-M3 Debug Monitor Interrupt                 */
+N  PendSV_IRQn                 = -2,     /*!< 14 Cortex-M3 Pend SV Interrupt                       */
+N  SysTick_IRQn                = -1,     /*!< 15 Cortex-M3 System Tick Interrupt                   */
+N
+N/******  STM32 specific Interrupt Numbers *********************************************************/
+N  WWDG_IRQn                   = 0,      /*!< Window WatchDog Interrupt                            */
+N  PVD_IRQn                    = 1,      /*!< PVD through EXTI Line detection Interrupt            */
+N  TAMPER_IRQn                 = 2,      /*!< Tamper Interrupt                                     */
+N  RTC_IRQn                    = 3,      /*!< RTC global Interrupt                                 */
+N  FLASH_IRQn                  = 4,      /*!< FLASH global Interrupt                               */
+N  RCC_IRQn                    = 5,      /*!< RCC global Interrupt                                 */
+N  EXTI0_IRQn                  = 6,      /*!< EXTI Line0 Interrupt                                 */
+N  EXTI1_IRQn                  = 7,      /*!< EXTI Line1 Interrupt                                 */
+N  EXTI2_IRQn                  = 8,      /*!< EXTI Line2 Interrupt                                 */
+N  EXTI3_IRQn                  = 9,      /*!< EXTI Line3 Interrupt                                 */
+N  EXTI4_IRQn                  = 10,     /*!< EXTI Line4 Interrupt                                 */
+N  DMA1_Channel1_IRQn          = 11,     /*!< DMA1 Channel 1 global Interrupt                      */
+N  DMA1_Channel2_IRQn          = 12,     /*!< DMA1 Channel 2 global Interrupt                      */
+N  DMA1_Channel3_IRQn          = 13,     /*!< DMA1 Channel 3 global Interrupt                      */
+N  DMA1_Channel4_IRQn          = 14,     /*!< DMA1 Channel 4 global Interrupt                      */
+N  DMA1_Channel5_IRQn          = 15,     /*!< DMA1 Channel 5 global Interrupt                      */
+N  DMA1_Channel6_IRQn          = 16,     /*!< DMA1 Channel 6 global Interrupt                      */
+N  DMA1_Channel7_IRQn          = 17,     /*!< DMA1 Channel 7 global Interrupt                      */
+N
+N#ifdef STM32F10X_LD
+S  ADC1_2_IRQn                 = 18,     /*!< ADC1 and ADC2 global Interrupt                       */
+S  USB_HP_CAN1_TX_IRQn         = 19,     /*!< USB Device High Priority or CAN1 TX Interrupts       */
+S  USB_LP_CAN1_RX0_IRQn        = 20,     /*!< USB Device Low Priority or CAN1 RX0 Interrupts       */
+S  CAN1_RX1_IRQn               = 21,     /*!< CAN1 RX1 Interrupt                                   */
+S  CAN1_SCE_IRQn               = 22,     /*!< CAN1 SCE Interrupt                                   */
+S  EXTI9_5_IRQn                = 23,     /*!< External Line[9:5] Interrupts                        */
+S  TIM1_BRK_IRQn               = 24,     /*!< TIM1 Break Interrupt                                 */
+S  TIM1_UP_IRQn                = 25,     /*!< TIM1 Update Interrupt                                */
+S  TIM1_TRG_COM_IRQn           = 26,     /*!< TIM1 Trigger and Commutation Interrupt               */
+S  TIM1_CC_IRQn                = 27,     /*!< TIM1 Capture Compare Interrupt                       */
+S  TIM2_IRQn                   = 28,     /*!< TIM2 global Interrupt                                */
+S  TIM3_IRQn                   = 29,     /*!< TIM3 global Interrupt                                */
+S  I2C1_EV_IRQn                = 31,     /*!< I2C1 Event Interrupt                                 */
+S  I2C1_ER_IRQn                = 32,     /*!< I2C1 Error Interrupt                                 */
+S  SPI1_IRQn                   = 35,     /*!< SPI1 global Interrupt                                */
+S  USART1_IRQn                 = 37,     /*!< USART1 global Interrupt                              */
+S  USART2_IRQn                 = 38,     /*!< USART2 global Interrupt                              */
+S  EXTI15_10_IRQn              = 40,     /*!< External Line[15:10] Interrupts                      */
+S  RTCAlarm_IRQn               = 41,     /*!< RTC Alarm through EXTI Line Interrupt                */
+S  USBWakeUp_IRQn              = 42      /*!< USB Device WakeUp from suspend through EXTI Line Interrupt */    
+N#endif /* STM32F10X_LD */  
+N
+N#ifdef STM32F10X_LD_VL
+S  ADC1_IRQn                   = 18,     /*!< ADC1 global Interrupt                                */
+S  EXTI9_5_IRQn                = 23,     /*!< External Line[9:5] Interrupts                        */
+S  TIM1_BRK_TIM15_IRQn         = 24,     /*!< TIM1 Break and TIM15 Interrupts                      */
+S  TIM1_UP_TIM16_IRQn          = 25,     /*!< TIM1 Update and TIM16 Interrupts                     */
+S  TIM1_TRG_COM_TIM17_IRQn     = 26,     /*!< TIM1 Trigger and Commutation and TIM17 Interrupt     */
+S  TIM1_CC_IRQn                = 27,     /*!< TIM1 Capture Compare Interrupt                       */
+S  TIM2_IRQn                   = 28,     /*!< TIM2 global Interrupt                                */
+S  TIM3_IRQn                   = 29,     /*!< TIM3 global Interrupt                                */
+S  I2C1_EV_IRQn                = 31,     /*!< I2C1 Event Interrupt                                 */
+S  I2C1_ER_IRQn                = 32,     /*!< I2C1 Error Interrupt                                 */
+S  SPI1_IRQn                   = 35,     /*!< SPI1 global Interrupt                                */
+S  USART1_IRQn                 = 37,     /*!< USART1 global Interrupt                              */
+S  USART2_IRQn                 = 38,     /*!< USART2 global Interrupt                              */
+S  EXTI15_10_IRQn              = 40,     /*!< External Line[15:10] Interrupts                      */
+S  RTCAlarm_IRQn               = 41,     /*!< RTC Alarm through EXTI Line Interrupt                */
+S  CEC_IRQn                    = 42,     /*!< HDMI-CEC Interrupt                                   */
+S  TIM6_DAC_IRQn               = 54,     /*!< TIM6 and DAC underrun Interrupt                      */
+S  TIM7_IRQn                   = 55      /*!< TIM7 Interrupt                                       */       
+N#endif /* STM32F10X_LD_VL */
+N
+N#ifdef STM32F10X_MD
+N  ADC1_2_IRQn                 = 18,     /*!< ADC1 and ADC2 global Interrupt                       */
+N  USB_HP_CAN1_TX_IRQn         = 19,     /*!< USB Device High Priority or CAN1 TX Interrupts       */
+N  USB_LP_CAN1_RX0_IRQn        = 20,     /*!< USB Device Low Priority or CAN1 RX0 Interrupts       */
+N  CAN1_RX1_IRQn               = 21,     /*!< CAN1 RX1 Interrupt                                   */
+N  CAN1_SCE_IRQn               = 22,     /*!< CAN1 SCE Interrupt                                   */
+N  EXTI9_5_IRQn                = 23,     /*!< External Line[9:5] Interrupts                        */
+N  TIM1_BRK_IRQn               = 24,     /*!< TIM1 Break Interrupt                                 */
+N  TIM1_UP_IRQn                = 25,     /*!< TIM1 Update Interrupt                                */
+N  TIM1_TRG_COM_IRQn           = 26,     /*!< TIM1 Trigger and Commutation Interrupt               */
+N  TIM1_CC_IRQn                = 27,     /*!< TIM1 Capture Compare Interrupt                       */
+N  TIM2_IRQn                   = 28,     /*!< TIM2 global Interrupt                                */
+N  TIM3_IRQn                   = 29,     /*!< TIM3 global Interrupt                                */
+N  TIM4_IRQn                   = 30,     /*!< TIM4 global Interrupt                                */
+N  I2C1_EV_IRQn                = 31,     /*!< I2C1 Event Interrupt                                 */
+N  I2C1_ER_IRQn                = 32,     /*!< I2C1 Error Interrupt                                 */
+N  I2C2_EV_IRQn                = 33,     /*!< I2C2 Event Interrupt                                 */
+N  I2C2_ER_IRQn                = 34,     /*!< I2C2 Error Interrupt                                 */
+N  SPI1_IRQn                   = 35,     /*!< SPI1 global Interrupt                                */
+N  SPI2_IRQn                   = 36,     /*!< SPI2 global Interrupt                                */
+N  USART1_IRQn                 = 37,     /*!< USART1 global Interrupt                              */
+N  USART2_IRQn                 = 38,     /*!< USART2 global Interrupt                              */
+N  USART3_IRQn                 = 39,     /*!< USART3 global Interrupt                              */
+N  EXTI15_10_IRQn              = 40,     /*!< External Line[15:10] Interrupts                      */
+N  RTCAlarm_IRQn               = 41,     /*!< RTC Alarm through EXTI Line Interrupt                */
+N  USBWakeUp_IRQn              = 42      /*!< USB Device WakeUp from suspend through EXTI Line Interrupt */  
+N#endif /* STM32F10X_MD */  
+N
+N#ifdef STM32F10X_MD_VL
+S  ADC1_IRQn                   = 18,     /*!< ADC1 global Interrupt                                */
+S  EXTI9_5_IRQn                = 23,     /*!< External Line[9:5] Interrupts                        */
+S  TIM1_BRK_TIM15_IRQn         = 24,     /*!< TIM1 Break and TIM15 Interrupts                      */
+S  TIM1_UP_TIM16_IRQn          = 25,     /*!< TIM1 Update and TIM16 Interrupts                     */
+S  TIM1_TRG_COM_TIM17_IRQn     = 26,     /*!< TIM1 Trigger and Commutation and TIM17 Interrupt     */
+S  TIM1_CC_IRQn                = 27,     /*!< TIM1 Capture Compare Interrupt                       */
+S  TIM2_IRQn                   = 28,     /*!< TIM2 global Interrupt                                */
+S  TIM3_IRQn                   = 29,     /*!< TIM3 global Interrupt                                */
+S  TIM4_IRQn                   = 30,     /*!< TIM4 global Interrupt                                */
+S  I2C1_EV_IRQn                = 31,     /*!< I2C1 Event Interrupt                                 */
+S  I2C1_ER_IRQn                = 32,     /*!< I2C1 Error Interrupt                                 */
+S  I2C2_EV_IRQn                = 33,     /*!< I2C2 Event Interrupt                                 */
+S  I2C2_ER_IRQn                = 34,     /*!< I2C2 Error Interrupt                                 */
+S  SPI1_IRQn                   = 35,     /*!< SPI1 global Interrupt                                */
+S  SPI2_IRQn                   = 36,     /*!< SPI2 global Interrupt                                */
+S  USART1_IRQn                 = 37,     /*!< USART1 global Interrupt                              */
+S  USART2_IRQn                 = 38,     /*!< USART2 global Interrupt                              */
+S  USART3_IRQn                 = 39,     /*!< USART3 global Interrupt                              */
+S  EXTI15_10_IRQn              = 40,     /*!< External Line[15:10] Interrupts                      */
+S  RTCAlarm_IRQn               = 41,     /*!< RTC Alarm through EXTI Line Interrupt                */
+S  CEC_IRQn                    = 42,     /*!< HDMI-CEC Interrupt                                   */
+S  TIM6_DAC_IRQn               = 54,     /*!< TIM6 and DAC underrun Interrupt                      */
+S  TIM7_IRQn                   = 55      /*!< TIM7 Interrupt                                       */       
+N#endif /* STM32F10X_MD_VL */
+N
+N#ifdef STM32F10X_HD
+S  ADC1_2_IRQn                 = 18,     /*!< ADC1 and ADC2 global Interrupt                       */
+S  USB_HP_CAN1_TX_IRQn         = 19,     /*!< USB Device High Priority or CAN1 TX Interrupts       */
+S  USB_LP_CAN1_RX0_IRQn        = 20,     /*!< USB Device Low Priority or CAN1 RX0 Interrupts       */
+S  CAN1_RX1_IRQn               = 21,     /*!< CAN1 RX1 Interrupt                                   */
+S  CAN1_SCE_IRQn               = 22,     /*!< CAN1 SCE Interrupt                                   */
+S  EXTI9_5_IRQn                = 23,     /*!< External Line[9:5] Interrupts                        */
+S  TIM1_BRK_IRQn               = 24,     /*!< TIM1 Break Interrupt                                 */
+S  TIM1_UP_IRQn                = 25,     /*!< TIM1 Update Interrupt                                */
+S  TIM1_TRG_COM_IRQn           = 26,     /*!< TIM1 Trigger and Commutation Interrupt               */
+S  TIM1_CC_IRQn                = 27,     /*!< TIM1 Capture Compare Interrupt                       */
+S  TIM2_IRQn                   = 28,     /*!< TIM2 global Interrupt                                */
+S  TIM3_IRQn                   = 29,     /*!< TIM3 global Interrupt                                */
+S  TIM4_IRQn                   = 30,     /*!< TIM4 global Interrupt                                */
+S  I2C1_EV_IRQn                = 31,     /*!< I2C1 Event Interrupt                                 */
+S  I2C1_ER_IRQn                = 32,     /*!< I2C1 Error Interrupt                                 */
+S  I2C2_EV_IRQn                = 33,     /*!< I2C2 Event Interrupt                                 */
+S  I2C2_ER_IRQn                = 34,     /*!< I2C2 Error Interrupt                                 */
+S  SPI1_IRQn                   = 35,     /*!< SPI1 global Interrupt                                */
+S  SPI2_IRQn                   = 36,     /*!< SPI2 global Interrupt                                */
+S  USART1_IRQn                 = 37,     /*!< USART1 global Interrupt                              */
+S  USART2_IRQn                 = 38,     /*!< USART2 global Interrupt                              */
+S  USART3_IRQn                 = 39,     /*!< USART3 global Interrupt                              */
+S  EXTI15_10_IRQn              = 40,     /*!< External Line[15:10] Interrupts                      */
+S  RTCAlarm_IRQn               = 41,     /*!< RTC Alarm through EXTI Line Interrupt                */
+S  USBWakeUp_IRQn              = 42,     /*!< USB Device WakeUp from suspend through EXTI Line Interrupt */
+S  TIM8_BRK_IRQn               = 43,     /*!< TIM8 Break Interrupt                                 */
+S  TIM8_UP_IRQn                = 44,     /*!< TIM8 Update Interrupt                                */
+S  TIM8_TRG_COM_IRQn           = 45,     /*!< TIM8 Trigger and Commutation Interrupt               */
+S  TIM8_CC_IRQn                = 46,     /*!< TIM8 Capture Compare Interrupt                       */
+S  ADC3_IRQn                   = 47,     /*!< ADC3 global Interrupt                                */
+S  FSMC_IRQn                   = 48,     /*!< FSMC global Interrupt                                */
+S  SDIO_IRQn                   = 49,     /*!< SDIO global Interrupt                                */
+S  TIM5_IRQn                   = 50,     /*!< TIM5 global Interrupt                                */
+S  SPI3_IRQn                   = 51,     /*!< SPI3 global Interrupt                                */
+S  UART4_IRQn                  = 52,     /*!< UART4 global Interrupt                               */
+S  UART5_IRQn                  = 53,     /*!< UART5 global Interrupt                               */
+S  TIM6_IRQn                   = 54,     /*!< TIM6 global Interrupt                                */
+S  TIM7_IRQn                   = 55,     /*!< TIM7 global Interrupt                                */
+S  DMA2_Channel1_IRQn          = 56,     /*!< DMA2 Channel 1 global Interrupt                      */
+S  DMA2_Channel2_IRQn          = 57,     /*!< DMA2 Channel 2 global Interrupt                      */
+S  DMA2_Channel3_IRQn          = 58,     /*!< DMA2 Channel 3 global Interrupt                      */
+S  DMA2_Channel4_5_IRQn        = 59      /*!< DMA2 Channel 4 and Channel 5 global Interrupt        */
+N#endif /* STM32F10X_HD */  
+N
+N#ifdef STM32F10X_HD_VL
+S  ADC1_IRQn                   = 18,     /*!< ADC1 global Interrupt                                */
+S  EXTI9_5_IRQn                = 23,     /*!< External Line[9:5] Interrupts                        */
+S  TIM1_BRK_TIM15_IRQn         = 24,     /*!< TIM1 Break and TIM15 Interrupts                      */
+S  TIM1_UP_TIM16_IRQn          = 25,     /*!< TIM1 Update and TIM16 Interrupts                     */
+S  TIM1_TRG_COM_TIM17_IRQn     = 26,     /*!< TIM1 Trigger and Commutation and TIM17 Interrupt     */
+S  TIM1_CC_IRQn                = 27,     /*!< TIM1 Capture Compare Interrupt                       */
+S  TIM2_IRQn                   = 28,     /*!< TIM2 global Interrupt                                */
+S  TIM3_IRQn                   = 29,     /*!< TIM3 global Interrupt                                */
+S  TIM4_IRQn                   = 30,     /*!< TIM4 global Interrupt                                */
+S  I2C1_EV_IRQn                = 31,     /*!< I2C1 Event Interrupt                                 */
+S  I2C1_ER_IRQn                = 32,     /*!< I2C1 Error Interrupt                                 */
+S  I2C2_EV_IRQn                = 33,     /*!< I2C2 Event Interrupt                                 */
+S  I2C2_ER_IRQn                = 34,     /*!< I2C2 Error Interrupt                                 */
+S  SPI1_IRQn                   = 35,     /*!< SPI1 global Interrupt                                */
+S  SPI2_IRQn                   = 36,     /*!< SPI2 global Interrupt                                */
+S  USART1_IRQn                 = 37,     /*!< USART1 global Interrupt                              */
+S  USART2_IRQn                 = 38,     /*!< USART2 global Interrupt                              */
+S  USART3_IRQn                 = 39,     /*!< USART3 global Interrupt                              */
+S  EXTI15_10_IRQn              = 40,     /*!< External Line[15:10] Interrupts                      */
+S  RTCAlarm_IRQn               = 41,     /*!< RTC Alarm through EXTI Line Interrupt                */
+S  CEC_IRQn                    = 42,     /*!< HDMI-CEC Interrupt                                   */
+S  TIM12_IRQn                  = 43,     /*!< TIM12 global Interrupt                               */
+S  TIM13_IRQn                  = 44,     /*!< TIM13 global Interrupt                               */
+S  TIM14_IRQn                  = 45,     /*!< TIM14 global Interrupt                               */
+S  TIM5_IRQn                   = 50,     /*!< TIM5 global Interrupt                                */
+S  SPI3_IRQn                   = 51,     /*!< SPI3 global Interrupt                                */
+S  UART4_IRQn                  = 52,     /*!< UART4 global Interrupt                               */
+S  UART5_IRQn                  = 53,     /*!< UART5 global Interrupt                               */  
+S  TIM6_DAC_IRQn               = 54,     /*!< TIM6 and DAC underrun Interrupt                      */
+S  TIM7_IRQn                   = 55,     /*!< TIM7 Interrupt                                       */  
+S  DMA2_Channel1_IRQn          = 56,     /*!< DMA2 Channel 1 global Interrupt                      */
+S  DMA2_Channel2_IRQn          = 57,     /*!< DMA2 Channel 2 global Interrupt                      */
+S  DMA2_Channel3_IRQn          = 58,     /*!< DMA2 Channel 3 global Interrupt                      */
+S  DMA2_Channel4_5_IRQn        = 59,     /*!< DMA2 Channel 4 and Channel 5 global Interrupt        */
+S  DMA2_Channel5_IRQn          = 60      /*!< DMA2 Channel 5 global Interrupt (DMA2 Channel 5 is 
+S                                             mapped at position 60 only if the MISC_REMAP bit in 
+S                                             the AFIO_MAPR2 register is set)                      */       
+N#endif /* STM32F10X_HD_VL */
+N
+N#ifdef STM32F10X_XL
+S  ADC1_2_IRQn                 = 18,     /*!< ADC1 and ADC2 global Interrupt                       */
+S  USB_HP_CAN1_TX_IRQn         = 19,     /*!< USB Device High Priority or CAN1 TX Interrupts       */
+S  USB_LP_CAN1_RX0_IRQn        = 20,     /*!< USB Device Low Priority or CAN1 RX0 Interrupts       */
+S  CAN1_RX1_IRQn               = 21,     /*!< CAN1 RX1 Interrupt                                   */
+S  CAN1_SCE_IRQn               = 22,     /*!< CAN1 SCE Interrupt                                   */
+S  EXTI9_5_IRQn                = 23,     /*!< External Line[9:5] Interrupts                        */
+S  TIM1_BRK_TIM9_IRQn          = 24,     /*!< TIM1 Break Interrupt and TIM9 global Interrupt       */
+S  TIM1_UP_TIM10_IRQn          = 25,     /*!< TIM1 Update Interrupt and TIM10 global Interrupt     */
+S  TIM1_TRG_COM_TIM11_IRQn     = 26,     /*!< TIM1 Trigger and Commutation Interrupt and TIM11 global interrupt */
+S  TIM1_CC_IRQn                = 27,     /*!< TIM1 Capture Compare Interrupt                       */
+S  TIM2_IRQn                   = 28,     /*!< TIM2 global Interrupt                                */
+S  TIM3_IRQn                   = 29,     /*!< TIM3 global Interrupt                                */
+S  TIM4_IRQn                   = 30,     /*!< TIM4 global Interrupt                                */
+S  I2C1_EV_IRQn                = 31,     /*!< I2C1 Event Interrupt                                 */
+S  I2C1_ER_IRQn                = 32,     /*!< I2C1 Error Interrupt                                 */
+S  I2C2_EV_IRQn                = 33,     /*!< I2C2 Event Interrupt                                 */
+S  I2C2_ER_IRQn                = 34,     /*!< I2C2 Error Interrupt                                 */
+S  SPI1_IRQn                   = 35,     /*!< SPI1 global Interrupt                                */
+S  SPI2_IRQn                   = 36,     /*!< SPI2 global Interrupt                                */
+S  USART1_IRQn                 = 37,     /*!< USART1 global Interrupt                              */
+S  USART2_IRQn                 = 38,     /*!< USART2 global Interrupt                              */
+S  USART3_IRQn                 = 39,     /*!< USART3 global Interrupt                              */
+S  EXTI15_10_IRQn              = 40,     /*!< External Line[15:10] Interrupts                      */
+S  RTCAlarm_IRQn               = 41,     /*!< RTC Alarm through EXTI Line Interrupt                */
+S  USBWakeUp_IRQn              = 42,     /*!< USB Device WakeUp from suspend through EXTI Line Interrupt */
+S  TIM8_BRK_TIM12_IRQn         = 43,     /*!< TIM8 Break Interrupt and TIM12 global Interrupt      */
+S  TIM8_UP_TIM13_IRQn          = 44,     /*!< TIM8 Update Interrupt and TIM13 global Interrupt     */
+S  TIM8_TRG_COM_TIM14_IRQn     = 45,     /*!< TIM8 Trigger and Commutation Interrupt and TIM14 global interrupt */
+S  TIM8_CC_IRQn                = 46,     /*!< TIM8 Capture Compare Interrupt                       */
+S  ADC3_IRQn                   = 47,     /*!< ADC3 global Interrupt                                */
+S  FSMC_IRQn                   = 48,     /*!< FSMC global Interrupt                                */
+S  SDIO_IRQn                   = 49,     /*!< SDIO global Interrupt                                */
+S  TIM5_IRQn                   = 50,     /*!< TIM5 global Interrupt                                */
+S  SPI3_IRQn                   = 51,     /*!< SPI3 global Interrupt                                */
+S  UART4_IRQn                  = 52,     /*!< UART4 global Interrupt                               */
+S  UART5_IRQn                  = 53,     /*!< UART5 global Interrupt                               */
+S  TIM6_IRQn                   = 54,     /*!< TIM6 global Interrupt                                */
+S  TIM7_IRQn                   = 55,     /*!< TIM7 global Interrupt                                */
+S  DMA2_Channel1_IRQn          = 56,     /*!< DMA2 Channel 1 global Interrupt                      */
+S  DMA2_Channel2_IRQn          = 57,     /*!< DMA2 Channel 2 global Interrupt                      */
+S  DMA2_Channel3_IRQn          = 58,     /*!< DMA2 Channel 3 global Interrupt                      */
+S  DMA2_Channel4_5_IRQn        = 59      /*!< DMA2 Channel 4 and Channel 5 global Interrupt        */
+N#endif /* STM32F10X_XL */  
+N
+N#ifdef STM32F10X_CL
+S  ADC1_2_IRQn                 = 18,     /*!< ADC1 and ADC2 global Interrupt                       */
+S  CAN1_TX_IRQn                = 19,     /*!< USB Device High Priority or CAN1 TX Interrupts       */
+S  CAN1_RX0_IRQn               = 20,     /*!< USB Device Low Priority or CAN1 RX0 Interrupts       */
+S  CAN1_RX1_IRQn               = 21,     /*!< CAN1 RX1 Interrupt                                   */
+S  CAN1_SCE_IRQn               = 22,     /*!< CAN1 SCE Interrupt                                   */
+S  EXTI9_5_IRQn                = 23,     /*!< External Line[9:5] Interrupts                        */
+S  TIM1_BRK_IRQn               = 24,     /*!< TIM1 Break Interrupt                                 */
+S  TIM1_UP_IRQn                = 25,     /*!< TIM1 Update Interrupt                                */
+S  TIM1_TRG_COM_IRQn           = 26,     /*!< TIM1 Trigger and Commutation Interrupt               */
+S  TIM1_CC_IRQn                = 27,     /*!< TIM1 Capture Compare Interrupt                       */
+S  TIM2_IRQn                   = 28,     /*!< TIM2 global Interrupt                                */
+S  TIM3_IRQn                   = 29,     /*!< TIM3 global Interrupt                                */
+S  TIM4_IRQn                   = 30,     /*!< TIM4 global Interrupt                                */
+S  I2C1_EV_IRQn                = 31,     /*!< I2C1 Event Interrupt                                 */
+S  I2C1_ER_IRQn                = 32,     /*!< I2C1 Error Interrupt                                 */
+S  I2C2_EV_IRQn                = 33,     /*!< I2C2 Event Interrupt                                 */
+S  I2C2_ER_IRQn                = 34,     /*!< I2C2 Error Interrupt                                 */
+S  SPI1_IRQn                   = 35,     /*!< SPI1 global Interrupt                                */
+S  SPI2_IRQn                   = 36,     /*!< SPI2 global Interrupt                                */
+S  USART1_IRQn                 = 37,     /*!< USART1 global Interrupt                              */
+S  USART2_IRQn                 = 38,     /*!< USART2 global Interrupt                              */
+S  USART3_IRQn                 = 39,     /*!< USART3 global Interrupt                              */
+S  EXTI15_10_IRQn              = 40,     /*!< External Line[15:10] Interrupts                      */
+S  RTCAlarm_IRQn               = 41,     /*!< RTC Alarm through EXTI Line Interrupt                */
+S  OTG_FS_WKUP_IRQn            = 42,     /*!< USB OTG FS WakeUp from suspend through EXTI Line Interrupt */
+S  TIM5_IRQn                   = 50,     /*!< TIM5 global Interrupt                                */
+S  SPI3_IRQn                   = 51,     /*!< SPI3 global Interrupt                                */
+S  UART4_IRQn                  = 52,     /*!< UART4 global Interrupt                               */
+S  UART5_IRQn                  = 53,     /*!< UART5 global Interrupt                               */
+S  TIM6_IRQn                   = 54,     /*!< TIM6 global Interrupt                                */
+S  TIM7_IRQn                   = 55,     /*!< TIM7 global Interrupt                                */
+S  DMA2_Channel1_IRQn          = 56,     /*!< DMA2 Channel 1 global Interrupt                      */
+S  DMA2_Channel2_IRQn          = 57,     /*!< DMA2 Channel 2 global Interrupt                      */
+S  DMA2_Channel3_IRQn          = 58,     /*!< DMA2 Channel 3 global Interrupt                      */
+S  DMA2_Channel4_IRQn          = 59,     /*!< DMA2 Channel 4 global Interrupt                      */
+S  DMA2_Channel5_IRQn          = 60,     /*!< DMA2 Channel 5 global Interrupt                      */
+S  ETH_IRQn                    = 61,     /*!< Ethernet global Interrupt                            */
+S  ETH_WKUP_IRQn               = 62,     /*!< Ethernet Wakeup through EXTI line Interrupt          */
+S  CAN2_TX_IRQn                = 63,     /*!< CAN2 TX Interrupt                                    */
+S  CAN2_RX0_IRQn               = 64,     /*!< CAN2 RX0 Interrupt                                   */
+S  CAN2_RX1_IRQn               = 65,     /*!< CAN2 RX1 Interrupt                                   */
+S  CAN2_SCE_IRQn               = 66,     /*!< CAN2 SCE Interrupt                                   */
+S  OTG_FS_IRQn                 = 67      /*!< USB OTG FS global Interrupt                          */
+N#endif /* STM32F10X_CL */     
+N} IRQn_Type;
+N
+N/**
+N  * @}
+N  */
+N
+C "..\..\..\Libraries\CMSIS\Device\ST\STM32F10x\Include\stm32f10x.h" 488 22 cannot open source input file "core_cm3.h": No such file or directory
+N#include "core_cm3.h"

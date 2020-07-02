@@ -40,7 +40,7 @@
 /* Private define ------------------------------------------------------------*/
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
-__IO uint8_t Send_Buffer[2];
+__IO uint8_t Send_Buffer[64];
 extern __IO uint8_t PrevXferComplete;
 extern uint32_t ADC_ConvertedValueX;
 extern uint32_t ADC_ConvertedValueX_1;
@@ -200,6 +200,7 @@ void USB_LP_CAN1_RX0_IRQHandler(void)
 *******************************************************************************/
 void EXTI15_10_IRQHandler(void)
 {
+	uint8_t i;
   /* Check on the RIGHT button */
   if(EXTI_GetITStatus(RIGHT_BUTTON_EXTI_LINE) != RESET)
   {  
@@ -215,9 +216,17 @@ void EXTI15_10_IRQHandler(void)
       {
         Send_Buffer[1] = 0x00;
       }  
-      
+
+	  for(i = 1; i< 64; i++)
+		{		 
+		  Send_Buffer[i]++;
+		}
+	  /* Write the descriptor through the endpoint */
+	  USB_SIL_Write(EP1_IN, (uint8_t*) Send_Buffer, 64);
+
+	  
       /* Write the descriptor through the endpoint */
-      USB_SIL_Write(EP1_IN, (uint8_t*) Send_Buffer, 2);  
+      USB_SIL_Write(EP1_IN, (uint8_t*) Send_Buffer, 64);  
       
       SetEPTxValid(ENDP1);
       
@@ -298,6 +307,8 @@ void EXTI2_TS_IRQHandler(void)
 void EXTI9_5_IRQHandler(void)
 #endif
 {
+	uint8_t i;
+	
   if(EXTI_GetITStatus(KEY_BUTTON_EXTI_LINE) != RESET)
   {  
     if ((PrevXferComplete) && (bDeviceState == CONFIGURED))
@@ -315,9 +326,14 @@ void EXTI9_5_IRQHandler(void)
       {
         Send_Buffer[1] = 0x00;
       }  
-      
+	  
+	  for(i = 1; i< 64; i++)
+		{		 
+		  Send_Buffer[i]++;
+		}
+	  
       /* Write the descriptor through the endpoint */
-      USB_SIL_Write(EP1_IN, (uint8_t*) Send_Buffer, 2);  
+      USB_SIL_Write(EP1_IN, (uint8_t*) Send_Buffer, 64);  
       SetEPTxValid(ENDP1);
       PrevXferComplete = 0;
     }
@@ -325,6 +341,7 @@ void EXTI9_5_IRQHandler(void)
     EXTI_ClearITPendingBit(KEY_BUTTON_EXTI_LINE);
   }
 }
+
 #if !defined(STM32L1XX_MD) &&  !defined(STM32L1XX_HD) && !defined(STM32L1XX_MD_PLUS)&& ! defined (STM32F37X) && ! defined (STM32F30X)
 /*******************************************************************************
 * Function Name  : EXTI15_10_IRQHandler
@@ -351,7 +368,7 @@ void EXTI15_10_IRQHandler(void)
       }
       
       /* Write the descriptor through the endpoint */    
-      USB_SIL_Write(EP1_IN, (uint8_t*) Send_Buffer, 2);  
+      USB_SIL_Write(EP1_IN, (uint8_t*) Send_Buffer, 64);  
      
       SetEPTxValid(ENDP1);
 

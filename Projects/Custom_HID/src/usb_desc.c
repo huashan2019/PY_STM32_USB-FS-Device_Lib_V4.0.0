@@ -111,7 +111,7 @@ const uint8_t CustomHID_ConfigDescriptor[CUSTOMHID_SIZ_CONFIG_DESC] =
 
     0x81,          /* bEndpointAddress: Endpoint Address (IN) */
     0x03,          /* bmAttributes: Interrupt endpoint */
-    0x02,          /* wMaxPacketSize: 2 Bytes max */
+    0x40,          /* wMaxPacketSize: 2 Bytes max  20200701 lhs*/
     0x00,
     0x20,          /* bInterval: Polling Interval (32 ms) */
     /* 34 */
@@ -122,14 +122,37 @@ const uint8_t CustomHID_ConfigDescriptor[CUSTOMHID_SIZ_CONFIG_DESC] =
     0x01,	/* bEndpointAddress: */
 			/*	Endpoint Address (OUT) */
     0x03,	/* bmAttributes: Interrupt endpoint */
-    0x02,	/* wMaxPacketSize: 2 Bytes max  */
+    0x40,	/* wMaxPacketSize: 2 Bytes max  20200701 lhs*/
     0x00,
     0x20,	/* bInterval: Polling Interval (20 ms) */
     /* 41 */
   }
   ; /* CustomHID_ConfigDescriptor */
 const uint8_t CustomHID_ReportDescriptor[CUSTOMHID_SIZ_REPORT_DESC] =
-  {                    
+  {    
+  #if 1
+	/* USER CODE BEGIN 0 */
+	// 0x00,
+	0x05, 0x8c, /* USAGE_PAGE (ST Page) */
+	0x09, 0x01, /* USAGE (Demo Kit) */
+	0xa1, 0x01, /* COLLECTION (Application) */
+	// The Input report
+	0x09,0x03, // USAGE ID - Vendor defined
+	0x15,0x00, // LOGICAL_MINIMUM (0)
+	0x26,0x00, 0xFF, // LOGICAL_MAXIMUM (255)
+	0x75,0x08, // REPORT_SIZE (8bit)
+	0x95,CUSTOM_HID_EPIN_SIZE, // REPORT_COUNT (64Byte)
+	0x81,0x02, // INPUT (Data,Var,Abs)
+	// The Output report
+	0x09,0x04, // USAGE ID - Vendor defined
+	0x15,0x00, // LOGICAL_MINIMUM (0)
+	0x26,0x00,0xFF, // LOGICAL_MAXIMUM (255)
+	0x75,0x08, // REPORT_SIZE (8bit)
+	0x95,CUSTOM_HID_EPOUT_SIZE, // REPORT_COUNT (64Byte)
+	0x91,0x02, // OUTPUT (Data,Var,Abs)
+	/* USER CODE END 0 */
+	0xC0 /* END_COLLECTION */
+  #else
     0x06, 0xFF, 0x00,      /* USAGE_PAGE (Vendor Page: 0xFF00) */                       
     0x09, 0x01,            /* USAGE (Demo Kit)               */    
     0xa1, 0x01,            /* COLLECTION (Application)       */            
@@ -244,6 +267,7 @@ const uint8_t CustomHID_ReportDescriptor[CUSTOMHID_SIZ_REPORT_DESC] =
     /* 161 */
 
     0xc0 	          /*     END_COLLECTION	             */
+   #endif
   }; /* CustomHID_ReportDescriptor */
 
 /* USB String Descriptors (optional) */

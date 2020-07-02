@@ -169,12 +169,12 @@ typedef enum
 /**
  * @brief Key push-button
  */
-#define KEY_BUTTON_PIN                   GPIO_Pin_9
-#define KEY_BUTTON_GPIO_PORT             GPIOB
-#define KEY_BUTTON_GPIO_CLK              RCC_APB2Periph_GPIOB
-#define KEY_BUTTON_EXTI_LINE             EXTI_Line9
-#define KEY_BUTTON_EXTI_PORT_SOURCE      GPIO_PortSourceGPIOB
-#define KEY_BUTTON_EXTI_PIN_SOURCE       GPIO_PinSource9
+#define KEY_BUTTON_PIN                   GPIO_Pin_5
+#define KEY_BUTTON_GPIO_PORT             GPIOE
+#define KEY_BUTTON_GPIO_CLK              RCC_APB2Periph_GPIOE
+#define KEY_BUTTON_EXTI_LINE             EXTI_Line5
+#define KEY_BUTTON_EXTI_PORT_SOURCE      GPIO_PortSourceGPIOE
+#define KEY_BUTTON_EXTI_PIN_SOURCE       GPIO_PinSource5
 #define KEY_BUTTON_EXTI_IRQn             EXTI9_5_IRQn
 /**
  * @brief Joystick Right push-button

@@ -52,6 +52,7 @@ void Delay(__IO uint32_t nCount);
 *******************************************************************************/
 int main(void)
 {
+
   Set_System();
 
   USB_Interrupts_Config();
